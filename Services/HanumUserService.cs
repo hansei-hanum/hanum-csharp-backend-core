@@ -28,7 +28,19 @@ internal class InternalHanumUserVerification() : HanumUserVerification {
 }
 
 public interface IHanumUserService {
+    /// <summary>
+    /// 사용자 정보를 가져옵니다.
+    /// </summary>
+    /// <param name="id">사용자 ID</param>
+    /// <param name="force">캐시를 무시하고 강제로 가져올지 여부</param>
+    /// <returns>사용자 정보</returns>
     public Task<HanumUser?> GetUserAsync(ulong id, bool force = false);
+    /// <summary>
+    /// 사용자가 존재하는지 확인합니다.
+    /// </summary>
+    /// <param name="id">사용자 ID</param>
+    /// <returns>사용자가 존재하는지 여부</returns>
+    public Task<bool> ExistsAsync(ulong id);
 }
 
 public class HanumUserService(
@@ -45,12 +57,16 @@ public class HanumUserService(
             Userid = unchecked((long)id)
         });
 
-        if (result.User == null)
+        if (!result.Success)
             return null;
 
         user = new InternalHanumUser(result.User);
         cache.Set(id, user, TimeSpan.FromMinutes(configuration.GetValue("Hanum.UserCache.ExpirationMinutes", 10)));
         return user;
+    }
+
+    public async Task<bool> ExistsAsync(ulong id) {
+        return await GetUserAsync(id) != null;
     }
 }
 
