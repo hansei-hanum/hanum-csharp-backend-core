@@ -24,6 +24,7 @@ internal class InternalHanumUserVerification() : HanumUserVerification {
         Grade = verification.Grade;
         Classroom = verification.Classroom;
         Number = verification.Number;
+        GraduationYear = verification.GraduatedAt;
     }
 }
 
