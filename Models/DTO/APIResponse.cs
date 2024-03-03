@@ -1,5 +1,6 @@
 
 using System.Text.Json.Serialization;
+using Hanum.Community.Models;
 
 namespace Hanum.Core.Models.Responses;
 
@@ -11,17 +12,18 @@ public class APIResponse {
     /// 응답코드
     /// </summary>
     [JsonPropertyName("message")]
-    public required string Code { get; set; }
-    [JsonIgnore]
+    [JsonConverter(typeof(HanumStatusCodeConverter))]
+    public required HanumStatusCode Code { get; set; }
+    [JsonInclude]
     private object? Data { get; set; } = null;
 
     public static APIResponse FromSuccess() {
         return new APIResponse {
-            Code = "SUCCESS"
+            Code = HanumStatusCode.Success
         };
     }
 
-    public static APIResponse FromError(string code) {
+    public static APIResponse FromError(HanumStatusCode code) {
         return new APIResponse {
             Code = code
         };
@@ -37,7 +39,8 @@ public class APIResponse<TData> {
     /// 응답코드
     /// </summary>
     [JsonPropertyName("message")]
-    public required string Code { get; set; }
+    [JsonConverter(typeof(HanumStatusCodeConverter))]
+    public required HanumStatusCode Code { get; set; }
     /// <summary>
     /// 응답데이터
     /// </summary>
@@ -45,12 +48,12 @@ public class APIResponse<TData> {
 
     public static APIResponse<TData> FromData(TData data) {
         return new APIResponse<TData> {
-            Code = "SUCCESS",
+            Code = HanumStatusCode.Success,
             Data = data
         };
     }
 
-    public static APIResponse<TData> FromError(string code) {
+    public static APIResponse<TData> FromError(HanumStatusCode code) {
         return new APIResponse<TData> {
             Code = code
         };
@@ -60,7 +63,7 @@ public class APIResponse<TData> {
 /// <summary>
 /// API페이징응답
 /// </summary>
-public class APIPagenationResponse {
+public abstract class APIPagenationResponse {
     /// <summary>
     /// 페이지
     /// </summary>
