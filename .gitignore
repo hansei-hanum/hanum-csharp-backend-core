@@ -1,0 +1,9 @@
+.vs
+.vscode
+/bin/
+/obj/
+Properties/PublishProfiles
+/dummy/
+*.user
+
+.fake
