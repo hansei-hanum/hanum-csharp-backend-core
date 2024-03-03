@@ -1,5 +1,4 @@
 
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -11,6 +10,10 @@ public enum HanumStatusCode {
     /// 성공
     /// </summary>
     Success,
+    /// <summary>
+    /// 서버 오류
+    /// </summary>
+    Error,
 
     ////////////////////////////////////////////
     //              커뮤니티 관련              //

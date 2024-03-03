@@ -58,6 +58,20 @@ public class APIResponse<TData> {
             Code = code
         };
     }
+
+    public static APIResponse<TData> FromError(HanumStatusCode code, TData data) {
+        return new APIResponse<TData> {
+            Code = code,
+            Data = data
+        };
+    }
+
+    public static APIResponse<TData> FromError(TData data) {
+        return new APIResponse<TData> {
+            Code = HanumStatusCode.Error,
+            Data = data
+        };
+    }
 }
 
 /// <summary>

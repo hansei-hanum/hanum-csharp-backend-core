@@ -14,6 +14,9 @@ public class HanumNotificationService(AuthService.AuthServiceClient authServiceC
         if (userId == null && topic == null)
             throw new ArgumentException("userId and topic cannot be null at the same time");
 
+        if (body.Title == null && body.Content == null)
+            throw new ArgumentException("Title and Content cannot be null at the same time");
+
         SendPushRequest request = new() {
             Title = body.Title,
             Body = body.Content,
