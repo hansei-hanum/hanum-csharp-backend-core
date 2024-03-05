@@ -37,6 +37,11 @@ public enum HanumStatusCode {
     CanNotBlockYourself,
 
     /// <summary>
+    /// 공개 범위가 잘못됨.
+    /// 사용자가 공개 범위에 대한 권한이 없음.
+    /// </summary>
+    InvalidScopeOfDisclosure,
+    /// <summary>
     /// 게시글이 존재하지 않음
     /// </summary>
     ArticleNotFound,

@@ -85,7 +85,7 @@ public abstract class APIPagenationResponse {
     /// <summary>
     /// 페이지당 항목수
     /// </summary>
-    public required int Count { get; set; }
+    public required int Limit { get; set; }
     /// <summary>
     /// 전체 항목수
     /// </summary>
@@ -93,5 +93,5 @@ public abstract class APIPagenationResponse {
     /// <summary>
     /// 전체 페이지수
     /// </summary>
-    public int TotalPage => Count > 0 ? (int)Math.Ceiling((double)Total / Count) : 0;
+    public int TotalPage => Limit > 0 ? (int)Math.Ceiling((double)Total / Limit) : 0;
 }

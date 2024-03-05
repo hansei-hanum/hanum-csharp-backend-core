@@ -35,11 +35,26 @@ public class HanumUser {
     public HanumUserVerification? Verification { get; set; }
 }
 
+public enum HanumUserVerificationType {
+    /// <summary>
+    /// 재학생
+    /// </summary>
+    Student = 1,
+    /// <summary>
+    /// 졸업생
+    /// </summary>
+    Graduated = 2,
+    /// <summary>
+    /// 교직원
+    /// </summary>
+    Teacher = 3
+}
+
 public class HanumUserVerification {
     /// <summary>
     /// 인증 종류
     /// </summary>
-    public string Type { get; set; } = null!;
+    public HanumUserVerificationType Type { get; set; }
     /// <summary>
     /// 학과
     /// </summary>
@@ -59,19 +74,43 @@ public class HanumUserVerification {
     /// <summary>
     /// 졸업년도
     /// </summary>
-    public string? GraduationYear { get; set; }
+    public ushort? GraduationYear { get; set; }
+    /// <summary>
+    /// 입학년도
+    /// </summary>
+    public ushort? AdmissionYear {
+        // known issue: 데이터베이스와의 시간 불일치로 인해 정확한 년도를 계산할 수 없음
+        get => GraduationYear != null ? (ushort)(GraduationYear - 3) :
+            Grade != 0 ? (ushort)(DateTime.Now.Year - (Grade - 1)) : null;
+    }
+
+    /// <summary>
+    /// 졸업생 여부
+    /// </summary>
+    public bool IsGraduated => GraduationYear != null;
+
+    /// <summary>
+    /// 재학생 여부
+    /// </summary>
+    public bool IsStudent => Type == HanumUserVerificationType.Student;
+
+    /// <summary>
+    /// 교직원 여부
+    /// </summary>
+    public bool IsTeacher => Type == HanumUserVerificationType.Teacher;
+
 
     public string GetTypeName() {
         return Type switch {
-            "GRADUATED" => "졸업생",
-            "STUDENT" => "재학생",
-            "TEACHER" => "교직원",
+            HanumUserVerificationType.Graduated => "졸업생",
+            HanumUserVerificationType.Student => "재학생",
+            HanumUserVerificationType.Teacher => "교직원",
             _ => "인증되지 않음"
         };
     }
 
     public string GetDepartment() {
-        return Type switch {
+        return Department switch {
             "CLOUD_SECURITY" => "클라우드보안과",
             "NETWORK_SECURITY" => "네트워크보안과",
             "METAVERSE_GAME" => "메타버스게임과",
@@ -83,9 +122,9 @@ public class HanumUserVerification {
 
     public override string ToString() {
         return Type switch {
-            "GRADUATED" => $"{GetTypeName()} {GraduationYear}년 졸업생",
-            "STUDENT" => $"{GetTypeName()} {Department} {Grade}학년 {Classroom}반 재학생",
-            "TEACHER" => "한세사이버보안고등학교 교직원",
+            HanumUserVerificationType.Graduated => $"{GetTypeName()} {GraduationYear}년 졸업생",
+            HanumUserVerificationType.Student => $"{GetTypeName()} {Department} {Grade}학년 {Classroom}반 재학생",
+            HanumUserVerificationType.Teacher => "한세사이버보안고등학교 교직원",
             _ => "인증되지 않음"
         };
     }

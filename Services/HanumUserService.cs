@@ -19,12 +19,13 @@ internal class InternalHanumUser() : HanumUser {
 
 internal class InternalHanumUserVerification() : HanumUserVerification {
     public InternalHanumUserVerification(Verification verification) : this() {
-        Type = verification.Type;
+        Type = Enum.Parse<HanumUserVerificationType>(verification.Type, true);
         Department = verification.Department;
         Grade = verification.Grade;
         Classroom = verification.Classroom;
         Number = verification.Number;
-        GraduationYear = verification.GraduatedAt;
+        if (ushort.TryParse(verification.GraduatedAt, out ushort graduationYear))
+            GraduationYear = graduationYear;
     }
 }
 
