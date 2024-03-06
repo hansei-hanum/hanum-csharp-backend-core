@@ -34,9 +34,9 @@ public interface IHanumUserService {
     /// 사용자 정보를 가져옵니다.
     /// </summary>
     /// <param name="id">사용자 ID</param>
-    /// <param name="force">캐시를 무시하고 강제로 가져올지 여부</param>
+    /// <param name="useCache">캐시를 무시하고 강제로 가져올지 여부</param>
     /// <returns>사용자 정보</returns>
-    public Task<HanumUser?> GetUserAsync(ulong id, bool force = false);
+    public Task<HanumUser?> GetUserAsync(ulong id, bool useCache = true);
     /// <summary>
     /// 사용자가 존재하는지 확인합니다.
     /// </summary>
@@ -50,8 +50,8 @@ public class HanumUserService(
     IMemoryCache cache,
     AuthService.AuthServiceClient authServiceClient,
     IConfiguration configuration) : IHanumUserService {
-    public async Task<HanumUser?> GetUserAsync(ulong id, bool force = false) {
-        if (!force && cache.TryGetValue(id, out HanumUser? user)) {
+    public async Task<HanumUser?> GetUserAsync(ulong id, bool useCache = true) {
+        if (useCache && cache.TryGetValue(id, out HanumUser? user)) {
             return user!;
         }
 
@@ -63,7 +63,10 @@ public class HanumUserService(
             return null;
 
         user = new InternalHanumUser(result.User);
-        cache.Set(id, user, TimeSpan.FromMinutes(configuration.GetValue("Hanum.UserCache.ExpirationMinutes", 10)));
+
+        if (useCache)
+            cache.Set(id, user, TimeSpan.FromMinutes(configuration.GetValue("Hanum.UserCache.ExpirationMinutes", 10)));
+
         return user;
     }
 

@@ -14,6 +14,10 @@ public enum HanumStatusCode {
     /// 서버 오류
     /// </summary>
     Error,
+    /// <summary>
+    /// 잘못된 요청
+    /// </summary>
+    InvalidRequest,
 
     ////////////////////////////////////////////
     //               사용자 관련               //

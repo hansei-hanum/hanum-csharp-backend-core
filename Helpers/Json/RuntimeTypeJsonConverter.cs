@@ -32,7 +32,7 @@ public class RuntimeTypeJsonConverter<T> : JsonConverter<T> {
             RuntimeTypeJsonConverter<T>.WriteObject(writer, value, ref options);
         } else //otherwise just call the default serializer implementation of this Converter is asked to serialize anything not handled in the other two cases
           {
-            JsonSerializer.Serialize(writer, value);
+            JsonSerializer.Serialize(writer, value, options);
         }
     }
 
@@ -54,7 +54,7 @@ public class RuntimeTypeJsonConverter<T> : JsonConverter<T> {
             var propVal = prop.GetValue(value);
             if (propVal == null) continue; //don't include null values in the final graph
 
-            writer.WritePropertyName(prop.Name);
+            writer.WritePropertyName(options.PropertyNamingPolicy?.ConvertName(prop.Name) ?? prop.Name);
             var propType = propVal.GetType(); //get the runtime type of the value regardless of what the property info says the PropertyType should be
 
             if (propType.IsClass && propType != typeof(string)) //if the property type is a valid type for this JsonConverter to handle, do some reflection work to get a RuntimeTypeJsonConverter appropriate for the sub-object
@@ -80,7 +80,7 @@ public class RuntimeTypeJsonConverter<T> : JsonConverter<T> {
                 JsonSerializer.Serialize(writer, propVal, propType, options);
             } else //not one of our sub-objects, serialize it like normal
               {
-                JsonSerializer.Serialize(writer, propVal);
+                JsonSerializer.Serialize(writer, propVal, options);
             }
         }
 

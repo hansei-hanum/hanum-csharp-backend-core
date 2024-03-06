@@ -77,7 +77,11 @@ public class APIResponse<TData> {
 /// <summary>
 /// API페이징응답
 /// </summary>
-public abstract class APIPagenationResponse {
+public class APIPagenationData<TItem> {
+    /// <summary>
+    /// 항목목록
+    /// </summary>
+    public required IEnumerable<TItem> Items { get; set; }
     /// <summary>
     /// 페이지
     /// </summary>
@@ -94,4 +98,49 @@ public abstract class APIPagenationResponse {
     /// 전체 페이지수
     /// </summary>
     public int TotalPage => Limit > 0 ? (int)Math.Ceiling((double)Total / Limit) : 0;
+}
+
+/// <summary>
+/// API페이징응답
+/// </summary>
+/// <typeparam name="TData">데이터타입</typeparam>
+public class APIPagenationResponse<TData> : APIResponse<APIPagenationData<TData>> {
+    public static APIPagenationResponse<TData> FromDbResult(DbPagenationResult<TData> data) {
+        return new APIPagenationResponse<TData> {
+            Code = HanumStatusCode.Success,
+            Data = new() {
+                Items = data.Items,
+                Page = data.Page,
+                Limit = data.Limit,
+                Total = data.Total
+            }
+        };
+    }
+
+    public new static APIPagenationResponse<TData> FromData(APIPagenationData<TData> data) {
+        return new APIPagenationResponse<TData> {
+            Code = HanumStatusCode.Success,
+            Data = data
+        };
+    }
+
+    public static new APIPagenationResponse<TData> FromError(HanumStatusCode code) {
+        return new APIPagenationResponse<TData> {
+            Code = code
+        };
+    }
+
+    public new static APIPagenationResponse<TData> FromError(HanumStatusCode code, APIPagenationData<TData> data) {
+        return new APIPagenationResponse<TData> {
+            Code = code,
+            Data = data
+        };
+    }
+
+    public new static APIPagenationResponse<TData> FromError(APIPagenationData<TData> data) {
+        return new APIPagenationResponse<TData> {
+            Code = HanumStatusCode.Error,
+            Data = data
+        };
+    }
 }
