@@ -34,7 +34,7 @@ public interface IHanumUserService {
     /// 사용자 정보를 가져옵니다.
     /// </summary>
     /// <param name="id">사용자 ID</param>
-    /// <param name="useCache">캐시를 무시하고 강제로 가져올지 여부</param>
+    /// <param name="useCache">캐시 사용 여부</param>
     /// <returns>사용자 정보</returns>
     public Task<HanumUser?> GetUserAsync(ulong id, bool useCache = true);
     /// <summary>
