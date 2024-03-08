@@ -14,10 +14,6 @@ public class HanumUser {
     /// </summary>
     public string Name { get; set; } = null!;
     /// <summary>
-    /// 사용자 핸들
-    /// </summary>
-    public string? Handle { get; set; }
-    /// <summary>
     /// 사용자 프로필 사진
     /// </summary>
     public string? Picture { get; set; }
@@ -99,6 +95,14 @@ public class HanumUserVerification {
     /// </summary>
     public bool IsTeacher => Type == HanumUserVerificationType.Teacher;
 
+    public string GetStudentId() {
+        return Type switch {
+            HanumUserVerificationType.Graduated => $"{GraduationYear:D4}",
+            HanumUserVerificationType.Student => $"{Department![..1]}{Grade:D1}{Classroom:D1}{Number:D2}",
+            HanumUserVerificationType.Teacher => "교직원",
+            _ => "인증되지 않음"
+        };
+    }
 
     public string GetTypeName() {
         return Type switch {
