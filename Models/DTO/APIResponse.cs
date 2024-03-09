@@ -1,5 +1,5 @@
-
 using System.Text.Json.Serialization;
+
 using Hanum.Community.Models;
 
 namespace Hanum.Core.Models.Responses;
