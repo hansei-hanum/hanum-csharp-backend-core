@@ -14,6 +14,9 @@ public static class QueryableExtensions {
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int page, int limit) =>
         query.Skip(Math.Max(0, page - 1) * limit).Take(limit);
 
+    public static IEnumerable<T> Paginate<T>(this IEnumerable<T> query, int page, int limit) =>
+        query.Skip(Math.Max(0, page - 1) * limit).Take(limit);
+
     public static IQueryable<T> Paginate<TCursor, T>(this IQueryable<T> query, TCursor? cursor, int limit,
         bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
         if (cursor == null) {
