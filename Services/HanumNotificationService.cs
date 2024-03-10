@@ -34,7 +34,7 @@ public class HanumNotificationService(AuthService.AuthServiceClient authServiceC
 
     public async Task<bool> SendNotificationAsync(HanumNotification body, params ulong[] userIds) {
         ArgumentNullException.ThrowIfNull(userIds, nameof(userIds));
-        return (await Task.WhenAll(userIds.Select(userId => SendNotificationAsync(body, userId)))).All(result => result);
+        return (await Task.WhenAll(userIds.Select(userId => SendNotificationAsync(body, userId: userId)))).All(result => result);
     }
 }
 
