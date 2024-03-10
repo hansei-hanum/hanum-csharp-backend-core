@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Hanum.Community.Models;
+namespace Hanum.Core.Models;
 
 public enum HanumStatusCode {
     /// <summary>
@@ -17,6 +17,10 @@ public enum HanumStatusCode {
     /// 잘못된 요청
     /// </summary>
     InvalidRequest,
+    /// <summary>
+    /// 권한 없음
+    /// </summary>
+    NotAllowed,
 
     ////////////////////////////////////////////
     //               사용자 관련               //
@@ -25,6 +29,70 @@ public enum HanumStatusCode {
     /// 사용자가 존재하지 않음
     /// </summary>
     UserNotFound,
+
+    ////////////////////////////////////////////
+    //                페이 관련                //
+    ////////////////////////////////////////////
+    /// <summary>
+    /// 부스가 존재하지 않음
+    /// </summary>
+    BoothNotFound,
+    /// <summary>
+    /// 결제가 존재하지 않음
+    /// </summary>
+    PaymentNotFound,
+    /// <summary>
+    /// 해당 잔고는 개인잔고가 아닙니다.
+    /// </summary>
+    NotAPersonalBalance,
+    /// <summary>
+    /// 해당 부스 잔고가 존재하지 않습니다.
+    /// </summary>
+    BoothBalanceNotFound,
+    /// <summary>
+    /// 해당 잔고는 부스 잔고가 아닙니다.
+    /// </summary>
+    NotABoothOperationalBalance,
+    /// <summary>
+    /// 해당 결제내역이 존재하지 않습니다.
+    /// </summary>
+    PaymentRecordNotFound,
+    /// <summary>
+    /// 이미 결제가 취소되었습니다.
+    /// </summary>
+    PaymentAlreadyCancelled,
+    /// <summary>
+    /// 결제 취소 상태를 업데이트하지 못했습니다.
+    /// </summary>
+    PaymentCancellationStatusNotUpdated,
+    /// <summary>
+    /// 송금자와 수신자가 일치합니다.
+    /// </summary>
+    SenderIdEqualsReceiverId,
+    /// <summary>
+    /// 송금액이 올바른지 확인하십시오.
+    /// </summary>
+    InvalidTransferAmount,
+    /// <summary>
+    /// 송금자ID가 잘못되었습니다.
+    /// </summary>
+    InvalidSenderId,
+    /// <summary>
+    /// 송금자의 잔액이 부족합니다.
+    /// </summary>
+    InsufficientSenderBalance,
+    /// <summary>
+    /// 수신자ID가 잘못되었습니다.
+    /// </summary>
+    InvalidReceiverId,
+    /// <summary>
+    /// 송금자 금액을 업데이트하지 못했습니다.
+    /// </summary>
+    SenderBalanceNotUpdated,
+    /// <summary>
+    /// 수신자 금액을 업데이트하지 못했습니다.
+    /// </summary>
+    ReceiverBalanceNotUpdated,
 
     ////////////////////////////////////////////
     //              커뮤니티 관련              //

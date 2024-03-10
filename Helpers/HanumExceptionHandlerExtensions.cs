@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
 
-using Hanum.Core.Models.Responses;
+using Hanum.Pay.Models.DTO.Responses;
 
 namespace Hanum.Core.Helpers;
 

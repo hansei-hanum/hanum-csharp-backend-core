@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
+using Hanum.Core.Models;
 
-using Hanum.Community.Models;
-
-namespace Hanum.Core.Models.Responses;
+namespace Hanum.Pay.Models.DTO.Responses;
 
 /// <summary>
 /// API응답

@@ -37,7 +37,7 @@ public class HanumAuthenticationHandler(
         } else {
             userId = token[1];
 
-            if (!ulong.TryParse(userId, out var _))
+            if (!ulong.TryParse(userId, out var uid) || !(await authServiceClient.GetUserAsync(new GetUserRequest { Userid = uid })).Success)
                 userId = null;
         }
 
