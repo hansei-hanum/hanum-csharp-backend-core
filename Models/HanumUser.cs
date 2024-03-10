@@ -126,8 +126,8 @@ public class HanumUserVerification {
 
     public override string ToString() {
         return Type switch {
-            HanumUserVerificationType.Graduated => $"{GetTypeName()} {GraduationYear}년 졸업생",
-            HanumUserVerificationType.Student => $"{GetTypeName()} {Department} {Grade}학년 {Classroom}반 재학생",
+            HanumUserVerificationType.Graduated => $"{GraduationYear}년 졸업생",
+            HanumUserVerificationType.Student => $"{Department} {Grade}학년 {Classroom}반 재학생",
             HanumUserVerificationType.Teacher => "한세사이버보안고등학교 교직원",
             _ => "인증되지 않음"
         };
