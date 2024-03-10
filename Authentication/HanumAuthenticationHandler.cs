@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-using Hanum.Core.Protos.Auth;
+using Hanum.Core.Protos.Authv2;
 
 namespace Hanum.Core.Authentication;
 
@@ -15,7 +15,7 @@ public class HanumAuthenticationHandler(
     ILoggerFactory logger,
     UrlEncoder encoder,
     IConfiguration configuration,
-    AuthService.AuthServiceClient authServiceClient) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder) {
+    AuthServiceV2.AuthServiceV2Client authServiceClient) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder) {
     public const string SchemeName = "HanumCommonAuth";
 
     private readonly bool _bypassAuth = configuration.GetValue("Hanum:BypassAuth", false);

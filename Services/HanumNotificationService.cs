@@ -1,5 +1,5 @@
 using Hanum.Core.Models;
-using Hanum.Core.Protos.Auth;
+using Hanum.Core.Protos.Authv2;
 
 namespace Hanum.Core.Services;
 
@@ -8,7 +8,7 @@ public interface IHanumNotificationService {
     Task<bool> SendNotificationAsync(HanumNotification body, params ulong[] userIds);
 }
 
-public class HanumNotificationService(AuthService.AuthServiceClient authServiceClient) : IHanumNotificationService {
+public class HanumNotificationService(AuthServiceV2.AuthServiceV2Client authServiceClient) : IHanumNotificationService {
     public async Task<bool> SendNotificationAsync(HanumNotification body, ulong? userId = null, string? topic = null) {
         if (userId == null && topic == null)
             throw new ArgumentException("userId and topic cannot be null at the same time");
