@@ -7,6 +7,8 @@ namespace Hanum.Core.Helpers;
 public static class HanumLoggingServiceCollectionExtensions {
     public static IServiceCollection AddHanumLogging(this IServiceCollection services) =>
         services.AddLogging(logging => {
+            logging.ClearProviders();
+
             logging.AddSimpleConsole(options => {
                 options.SingleLine = true;
                 options.TimestampFormat = "HH:mm:ss ";
