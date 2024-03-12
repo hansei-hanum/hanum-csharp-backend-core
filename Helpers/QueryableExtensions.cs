@@ -73,7 +73,7 @@ public static class QueryableExtensions {
             Limit = limit,
             Total = await query.CountAsync(),
             Cursor = cursor,
-            NextCursor = GetInstanceCursor<TCursor, TDbItem>(isAscending ? items.FirstOrDefault() : items.LastOrDefault(), cursorPropertyName)!
+            NextCursor = GetInstanceCursor<TCursor, TDbItem>(items.LastOrDefault(), cursorPropertyName)!
         };
     }
 
@@ -84,7 +84,7 @@ public static class QueryableExtensions {
             Limit = limit,
             Total = await query.CountAsync(),
             Cursor = cursor,
-            NextCursor = GetInstanceCursor<TCursor, TDbSelectedItem>(isAscending ? items.FirstOrDefault() : items.LastOrDefault(), cursorPropertyName)!
+            NextCursor = GetInstanceCursor<TCursor, TDbSelectedItem>(items.LastOrDefault(), cursorPropertyName)!
         };
     }
 
@@ -95,7 +95,7 @@ public static class QueryableExtensions {
             Limit = limit,
             Total = await query.CountAsync(),
             Cursor = cursor,
-            NextCursor = GetInstanceCursor<TCursor, TDbItem>(isAscending ? items.FirstOrDefault() : items.LastOrDefault(), cursorPropertyName)!
+            NextCursor = GetInstanceCursor<TCursor, TDbItem>(items.LastOrDefault(), cursorPropertyName)!
         };
     }
 
@@ -106,7 +106,7 @@ public static class QueryableExtensions {
             Limit = limit,
             Total = await query.CountAsync(),
             Cursor = cursor,
-            NextCursor = GetInstanceCursor<TCursor, TDbSelectedItem>(isAscending ? items.FirstOrDefault() : items.LastOrDefault(), cursorPropertyName)!
+            NextCursor = GetInstanceCursor<TCursor, TDbSelectedItem>(items.LastOrDefault(), cursorPropertyName)!
         };
     }
 }
