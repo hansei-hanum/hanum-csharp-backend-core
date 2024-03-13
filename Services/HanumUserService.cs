@@ -75,7 +75,9 @@ public class HanumUserService(
         user = new InternalHanumUser(result.User);
 
         if (useCache)
-            cache.Set(id, user, TimeSpan.FromMinutes(configuration.GetValue("Hanum.UserCache.ExpirationMinutes", 10)));
+            cache.Set(id, user, user.Verification == null ?
+                TimeSpan.FromSeconds(10) :
+                TimeSpan.FromMinutes(configuration.GetValue("Hanum.UserCache.ExpirationMinutes", 10)));
 
         return user;
     }
