@@ -124,6 +124,23 @@ public enum HanumStatusCode {
     /// 답글이 존재하지 않음
     /// </summary>
     ReplyNotFound,
+
+    ////////////////////////////////////////////
+    //              리크루트 관련              //
+    ////////////////////////////////////////////
+
+    /// <summary>
+    /// 지원서가 존재하지 않음
+    /// </summary>
+    ApplicationNotFound,
+    /// <summary>
+    /// 부서가 존재하지 않음
+    /// </summary>
+    DepartmentNotFound,
+    /// <summary>
+    /// 지원서가 이미 제출됨
+    /// </summary>
+    ApplicationAlreadySubmitted,
 }
 
 public partial class HanumStatusCodeConverter : JsonConverter<HanumStatusCode> {
