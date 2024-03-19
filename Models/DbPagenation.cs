@@ -1,5 +1,5 @@
 
-namespace Hanum.Pay.Models.DTO.Responses;
+namespace Hanum.Core.Models.DTO.Responses;
 
 /// <summary>
 /// 데이터베이스 페이징 결과

@@ -3,7 +3,7 @@ using System.Reflection;
 
 using Microsoft.EntityFrameworkCore;
 
-using Hanum.Pay.Models.DTO.Responses;
+using Hanum.Core.Models.DTO.Responses;
 
 namespace Hanum.Core.Helpers;
 
