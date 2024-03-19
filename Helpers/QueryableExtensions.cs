@@ -3,7 +3,7 @@ using System.Reflection;
 
 using Microsoft.EntityFrameworkCore;
 
-using Hanum.Core.Models.DTO.Responses;
+using Hanum.Core.Models;
 
 namespace Hanum.Core.Helpers;
 
@@ -33,7 +33,7 @@ public static class QueryableExtensions {
         return query.Where((Expression<Func<T, bool>>)lambda).Take(limit);
     }
 
-    public static async Task<DbOffsetBasedPagenationResult<TItem>> ToOffsetPagenation<TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, TItem> selectFunc, int page, int limit) =>
+    public static async Task<DbOffsetBasedPaginationResult<TItem>> ToOffsetPagination<TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, TItem> selectFunc, int page, int limit) =>
         new() {
             Items = (await query.Paginate(page, limit).ToListAsync()).Select(selectFunc),
             Limit = limit,
@@ -41,7 +41,7 @@ public static class QueryableExtensions {
             Page = page
         };
 
-    public static async Task<DbOffsetBasedPagenationResult<TItem>> ToOffsetPagenation<TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, TItem> selectFunc, int page, int limit) =>
+    public static async Task<DbOffsetBasedPaginationResult<TItem>> ToOffsetPagination<TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, TItem> selectFunc, int page, int limit) =>
         new() {
             Items = (await query.Paginate(page, limit).Select(selectQuery).ToListAsync()).Select(selectFunc),
             Limit = limit,
@@ -49,7 +49,7 @@ public static class QueryableExtensions {
             Page = page
         };
 
-    public static async Task<DbOffsetBasedPagenationResult<TItem>> ToOffsetPagenation<TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, Task<TItem>> selectFunc, int page, int limit) =>
+    public static async Task<DbOffsetBasedPaginationResult<TItem>> ToOffsetPagination<TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, Task<TItem>> selectFunc, int page, int limit) =>
         new() {
             Items = await Task.WhenAll((await query.Paginate(page, limit).ToListAsync()).Select(selectFunc)),
             Limit = limit,
@@ -57,7 +57,7 @@ public static class QueryableExtensions {
             Page = page
         };
 
-    public static async Task<DbOffsetBasedPagenationResult<TItem>> ToOffsetPagenation<TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, Task<TItem>> selectFunc, int page, int limit) =>
+    public static async Task<DbOffsetBasedPaginationResult<TItem>> ToOffsetPagination<TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, Task<TItem>> selectFunc, int page, int limit) =>
         new() {
             Items = await Task.WhenAll((await query.Paginate(page, limit).Select(selectQuery).ToListAsync()).Select(selectFunc)),
             Limit = limit,
@@ -66,7 +66,7 @@ public static class QueryableExtensions {
         };
 
 
-    public static async Task<DbCursorBasedPagenationResult<TCursor, TItem>> TCursorPagenation<TCursor, TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, TItem> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
+    public static async Task<DbCursorBasedPaginationResult<TCursor, TItem>> TCursorPagination<TCursor, TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, TItem> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
         var items = await query.Paginate(cursor, limit, isAscending, cursorPropertyName).ToListAsync();
         return new() {
             Items = items.Select(selectFunc),
@@ -77,7 +77,7 @@ public static class QueryableExtensions {
         };
     }
 
-    public static async Task<DbCursorBasedPagenationResult<TCursor, TItem>> TCursorPagenation<TCursor, TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, TItem> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
+    public static async Task<DbCursorBasedPaginationResult<TCursor, TItem>> TCursorPagination<TCursor, TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, TItem> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
         var items = await query.Paginate(cursor, limit, isAscending, cursorPropertyName).Select(selectQuery).ToListAsync();
         return new() {
             Items = items.Select(selectFunc),
@@ -88,7 +88,7 @@ public static class QueryableExtensions {
         };
     }
 
-    public static async Task<DbCursorBasedPagenationResult<TCursor, TItem>> ToCursorPagenation<TCursor, TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, Task<TItem>> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
+    public static async Task<DbCursorBasedPaginationResult<TCursor, TItem>> ToCursorPagination<TCursor, TDbItem, TItem>(this IQueryable<TDbItem> query, Func<TDbItem, Task<TItem>> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
         var items = await query.Paginate(cursor, limit, isAscending, cursorPropertyName).ToListAsync();
         return new() {
             Items = await Task.WhenAll(items.Select(selectFunc)),
@@ -99,7 +99,7 @@ public static class QueryableExtensions {
         };
     }
 
-    public static async Task<DbCursorBasedPagenationResult<TCursor, TItem>> ToCursorPagenation<TCursor, TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, Task<TItem>> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
+    public static async Task<DbCursorBasedPaginationResult<TCursor, TItem>> ToCursorPagination<TCursor, TDbItem, TDbSelectedItem, TItem>(this IQueryable<TDbItem> query, Expression<Func<TDbItem, TDbSelectedItem>> selectQuery, Func<TDbSelectedItem, Task<TItem>> selectFunc, TCursor? cursor, int limit, bool isAscending = true, string cursorPropertyName = "Id") where TCursor : struct {
         var items = await query.Paginate(cursor, limit, isAscending, cursorPropertyName).Select(selectQuery).ToListAsync();
         return new() {
             Items = await Task.WhenAll(items.Select(selectFunc)),

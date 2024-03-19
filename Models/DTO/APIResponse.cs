@@ -75,7 +75,7 @@ public class APIResponse<TData> {
 /// <summary>
 /// API페이징응답
 /// </summary>
-public class APIPagenationData<TItem> {
+public class APIPaginationData<TItem> {
     /// <summary>
     /// 항목목록
     /// </summary>
@@ -97,7 +97,7 @@ public class APIPagenationData<TItem> {
 /// <summary>
 /// API페이징응답
 /// </summary>
-public class APIOffsetBasedPagenationData<TItem> : APIPagenationData<TItem> {
+public class APIOffsetBasedPaginationData<TItem> : APIPaginationData<TItem> {
     /// <summary>
     /// 페이지
     /// </summary>
@@ -107,7 +107,7 @@ public class APIOffsetBasedPagenationData<TItem> : APIPagenationData<TItem> {
 /// <summary>
 /// API 커서 페이징 응답
 /// </summary>
-public class APICursorBasedPagenationData<TCursor, TItem> : APIPagenationData<TItem> where TCursor : struct {
+public class APICursorBasedPaginationData<TCursor, TItem> : APIPaginationData<TItem> where TCursor : struct {
     /// <summary>
     /// 커서
     /// </summary>
@@ -122,9 +122,9 @@ public class APICursorBasedPagenationData<TCursor, TItem> : APIPagenationData<TI
 /// API 오프셋 기반 페이징 응답
 /// </summary>
 /// <typeparam name="TItem">데이터타입</typeparam>
-public class APIOffsetBasedPagenationResponse<TItem> : APIResponse<APIOffsetBasedPagenationData<TItem>> {
-    public static APIOffsetBasedPagenationResponse<TItem> FromDbResult(DbOffsetBasedPagenationResult<TItem> data) {
-        return new APIOffsetBasedPagenationResponse<TItem> {
+public class APIOffsetBasedPaginationResponse<TItem> : APIResponse<APIOffsetBasedPaginationData<TItem>> {
+    public static APIOffsetBasedPaginationResponse<TItem> FromDbResult(DbOffsetBasedPaginationResult<TItem> data) {
+        return new APIOffsetBasedPaginationResponse<TItem> {
             Code = HanumStatusCode.Success,
             Data = new() {
                 Items = data.Items,
@@ -135,28 +135,28 @@ public class APIOffsetBasedPagenationResponse<TItem> : APIResponse<APIOffsetBase
         };
     }
 
-    public new static APIOffsetBasedPagenationResponse<TItem> FromData(APIOffsetBasedPagenationData<TItem> data) {
-        return new APIOffsetBasedPagenationResponse<TItem> {
+    public new static APIOffsetBasedPaginationResponse<TItem> FromData(APIOffsetBasedPaginationData<TItem> data) {
+        return new APIOffsetBasedPaginationResponse<TItem> {
             Code = HanumStatusCode.Success,
             Data = data
         };
     }
 
-    public static new APIOffsetBasedPagenationResponse<TItem> FromError(HanumStatusCode code) {
-        return new APIOffsetBasedPagenationResponse<TItem> {
+    public static new APIOffsetBasedPaginationResponse<TItem> FromError(HanumStatusCode code) {
+        return new APIOffsetBasedPaginationResponse<TItem> {
             Code = code
         };
     }
 
-    public new static APIOffsetBasedPagenationResponse<TItem> FromError(HanumStatusCode code, APIOffsetBasedPagenationData<TItem> data) {
-        return new APIOffsetBasedPagenationResponse<TItem> {
+    public new static APIOffsetBasedPaginationResponse<TItem> FromError(HanumStatusCode code, APIOffsetBasedPaginationData<TItem> data) {
+        return new APIOffsetBasedPaginationResponse<TItem> {
             Code = code,
             Data = data
         };
     }
 
-    public new static APIOffsetBasedPagenationResponse<TItem> FromError(APIOffsetBasedPagenationData<TItem> data) {
-        return new APIOffsetBasedPagenationResponse<TItem> {
+    public new static APIOffsetBasedPaginationResponse<TItem> FromError(APIOffsetBasedPaginationData<TItem> data) {
+        return new APIOffsetBasedPaginationResponse<TItem> {
             Code = HanumStatusCode.Error,
             Data = data
         };
@@ -168,9 +168,9 @@ public class APIOffsetBasedPagenationResponse<TItem> : APIResponse<APIOffsetBase
 /// </summary>
 /// <typeparam name="TCursor">커서타입</typeparam>
 /// <typeparam name="TItem">데이터타입</typeparam>
-public class APICursorBasedPagenationResponse<TCursor, TItem> : APIResponse<APICursorBasedPagenationData<TCursor, TItem>> where TCursor : struct {
-    public static APICursorBasedPagenationResponse<TCursor, TItem> FromDbResult(DbCursorBasedPagenationResult<TCursor, TItem> data) {
-        return new APICursorBasedPagenationResponse<TCursor, TItem> {
+public class APICursorBasedPaginationResponse<TCursor, TItem> : APIResponse<APICursorBasedPaginationData<TCursor, TItem>> where TCursor : struct {
+    public static APICursorBasedPaginationResponse<TCursor, TItem> FromDbResult(DbCursorBasedPaginationResult<TCursor, TItem> data) {
+        return new APICursorBasedPaginationResponse<TCursor, TItem> {
             Code = HanumStatusCode.Success,
             Data = new() {
                 Items = data.Items,
@@ -182,28 +182,28 @@ public class APICursorBasedPagenationResponse<TCursor, TItem> : APIResponse<APIC
         };
     }
 
-    public new static APICursorBasedPagenationResponse<TCursor, TItem> FromData(APICursorBasedPagenationData<TCursor, TItem> data) {
-        return new APICursorBasedPagenationResponse<TCursor, TItem> {
+    public new static APICursorBasedPaginationResponse<TCursor, TItem> FromData(APICursorBasedPaginationData<TCursor, TItem> data) {
+        return new APICursorBasedPaginationResponse<TCursor, TItem> {
             Code = HanumStatusCode.Success,
             Data = data
         };
     }
 
-    public static new APICursorBasedPagenationResponse<TCursor, TItem> FromError(HanumStatusCode code) {
-        return new APICursorBasedPagenationResponse<TCursor, TItem> {
+    public static new APICursorBasedPaginationResponse<TCursor, TItem> FromError(HanumStatusCode code) {
+        return new APICursorBasedPaginationResponse<TCursor, TItem> {
             Code = code
         };
     }
 
-    public new static APICursorBasedPagenationResponse<TCursor, TItem> FromError(HanumStatusCode code, APICursorBasedPagenationData<TCursor, TItem> data) {
-        return new APICursorBasedPagenationResponse<TCursor, TItem> {
+    public new static APICursorBasedPaginationResponse<TCursor, TItem> FromError(HanumStatusCode code, APICursorBasedPaginationData<TCursor, TItem> data) {
+        return new APICursorBasedPaginationResponse<TCursor, TItem> {
             Code = code,
             Data = data
         };
     }
 
-    public new static APICursorBasedPagenationResponse<TCursor, TItem> FromError(APICursorBasedPagenationData<TCursor, TItem> data) {
-        return new APICursorBasedPagenationResponse<TCursor, TItem> {
+    public new static APICursorBasedPaginationResponse<TCursor, TItem> FromError(APICursorBasedPaginationData<TCursor, TItem> data) {
+        return new APICursorBasedPaginationResponse<TCursor, TItem> {
             Code = HanumStatusCode.Error,
             Data = data
         };
